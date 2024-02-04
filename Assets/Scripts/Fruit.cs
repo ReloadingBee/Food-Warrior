@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Fruit : MonoBehaviour
 {
+    public GameObject explosionParticles;
     Rigidbody2D rb;
 
     private void Start()
@@ -15,8 +16,20 @@ public class Fruit : MonoBehaviour
     {
         if(transform.position.y < -6)
         {
-            print(":(");
-            Destroy(gameObject);
+            Miss();
         }
+    }
+
+    void Miss()
+    {
+        print(":(");
+        Destroy(gameObject);
+    }
+
+    public void Slice()
+    {
+        var particles = Instantiate(explosionParticles);
+        particles.transform.position = transform.position;
+        Destroy(gameObject);
     }
 }
