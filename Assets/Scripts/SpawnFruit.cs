@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class SpawnFruit : MonoBehaviour
 {
-    public GameObject fruit;
+    public GameObject fruitPrefab;
+    public GameObject bombPrefab;
     public float spawnRate = 0.8f;
+    [Range(0, 100)] public float bombChance;
 
     const float boundX = 6f;
 
@@ -14,7 +16,9 @@ public class SpawnFruit : MonoBehaviour
 
     public void Spawn()
     {
-        var obj = Instantiate(fruit);
+        var prefab = Random.Range(0, 100) < (100 - bombChance) ? fruitPrefab : bombPrefab;
+
+        var obj = Instantiate(prefab);
         var x = Random.Range(-boundX, boundX);
         obj.transform.position = new Vector2(x, -5f);
     }
