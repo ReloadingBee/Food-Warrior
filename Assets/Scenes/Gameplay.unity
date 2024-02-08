@@ -5419,6 +5419,45 @@ MonoBehaviour:
   bombPrefab: {fileID: 4604988877664447545, guid: 04393b8cbef75bf4781a8ec6d8349dbc, type: 3}
   spawnRate: 0.5
   bombChance: 20
+  waves:
+  - items:
+    - delay: 0
+      isBomb: 0
+      x: -5
+      velocity: {x: 0, y: 10}
+      isRandomPosition: 0
+      isRandomVelocity: 1
+      isRandomBomb: 0
+  - items:
+    - delay: 0
+      isBomb: 1
+      x: 0
+      velocity: {x: 0, y: 9}
+      isRandomPosition: 0
+      isRandomVelocity: 0
+      isRandomBomb: 0
+  - items:
+    - delay: 0
+      isBomb: 0
+      x: -5
+      velocity: {x: 0, y: 12}
+      isRandomPosition: 0
+      isRandomVelocity: 0
+      isRandomBomb: 0
+    - delay: 0
+      isBomb: 0
+      x: 0
+      velocity: {x: 0, y: 12}
+      isRandomPosition: 0
+      isRandomVelocity: 0
+      isRandomBomb: 0
+    - delay: 0.5
+      isBomb: 1
+      x: 5
+      velocity: {x: -5, y: 10}
+      isRandomPosition: 0
+      isRandomVelocity: 0
+      isRandomBomb: 0
 --- !u!1 &2122752104
 GameObject:
   m_ObjectHideFlags: 0
