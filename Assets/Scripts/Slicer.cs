@@ -41,6 +41,10 @@ public class Slicer : MonoBehaviour
         fruit.Slice();
 
         comboTimeLeft = 0.2f;
-        comboCount++;
+        if(!other.gameObject.CompareTag("Bomb"))
+        {
+            comboCount++;
+            GameManager.score++;
+        }
     }
 }

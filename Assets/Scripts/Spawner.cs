@@ -19,6 +19,7 @@ public class Spawner : MonoBehaviour
 		{
 			foreach (var item in wave.items)
 			{
+				if (GameManager.isGameOver) return;
 				await new WaitForSeconds(item.delay);
 
 				var randomFruit = fruitPrefabs[Random.Range(0, fruitPrefabs.Count)];
