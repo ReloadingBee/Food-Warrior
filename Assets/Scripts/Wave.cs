@@ -11,13 +11,13 @@ public class SpawnItemData
     [Range(-5, 5)] public float x;
     public Vector2 velocity = new Vector2(0, 10f);
 
-    public bool isRandomPosition;
-    public bool isRandomVelocity;
-    public bool isRandomBomb;
+    public bool rV;
+    public float xOffset;
+    public float bombChance;
 }
 
 [Serializable]
 public class Wave
 {
-    [OneLineWithHeader]public List<SpawnItemData> items;
+    public List<SpawnItemData> items;
 }

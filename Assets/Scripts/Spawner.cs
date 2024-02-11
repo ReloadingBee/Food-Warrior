@@ -1,57 +1,44 @@
-using UnityEngine;
+using System;
 using System.Collections.Generic;
+using UnityEngine;
+using Random = UnityEngine.Random;
+
 
 public class Spawner : MonoBehaviour
 {
-    public GameObject fruitPrefab;
-    public GameObject bombPrefab;
-    public float spawnRate = 0.8f;
-    [Range(0, 100)] public float bombChance;
+	public List<GameObject> fruitPrefabs;
+	public GameObject bombPrefab;
+	public float spawnRate = 1;
+	public float bombChance = 20;
 
-    public List<Wave> waves = new();
+	public List<Wave> waves = new();
 
-    const float boundX = 5f;
+	async void Start()
+	{
+		foreach (var wave in waves)
+		{
+			foreach (var item in wave.items)
+			{
+				await new WaitForSeconds(item.delay);
 
-    async void Start()
-    {
-        foreach (var wave in waves)
-        {
-            foreach (var item in wave.items)
-            {
-                // Check for randomness
-                if (item.isRandomBomb) item.isBomb = Random.Range(0f, 1f) < 0.5f;
-                if (item.isRandomPosition) item.x = Random.Range(-boundX, boundX);
-                if (item.isRandomVelocity)
-                {
-                    // Logic so it doesn't fly off screen
-                    var t = Mathf.InverseLerp(-boundX, boundX, item.x);
-                    t--; // Make it from -1 to 1
+				var randomFruit = fruitPrefabs[Random.Range(0, fruitPrefabs.Count)];
+				var prefab = item.isBomb ? bombPrefab : randomFruit;
+				if (item.bombChance > Random.Range(1f, 100f)) prefab = bombPrefab;
 
-                    var maxSpeed = 5f;
-                    item.velocity = new Vector2
-                        (
-                            Random.Range(-t * maxSpeed + t * Random.Range(-maxSpeed / 2, maxSpeed / 2), boundX),
-                            Random.Range(8.5f, 12f)
-                        );
-                }
+				var go = Instantiate(prefab);
 
-                await new WaitForSeconds(item.delay);
+				var offset = Random.Range(-item.xOffset, item.xOffset);
+				go.transform.position = new Vector3(item.x + offset, -5, 0);
 
-                var prefab = item.isBomb ? bombPrefab : fruitPrefab;
-                var go = Instantiate(prefab);
-                go.transform.position = new Vector2(item.x, -5);
-                go.GetComponent<Rigidbody2D>().velocity = item.velocity;
-            }
-            await new WaitForSeconds(3f);
-        }
-    }
+				go.GetComponent<Rigidbody2D>().velocity = item.velocity;
+				if (item.rV)
+				{
+					go.GetComponent<Rigidbody2D>().velocity += new Vector2(Random.Range(-5f, 5f), Random.Range(-3f, 4f));
+				}
 
-    public void Spawn()
-    {
-        var prefab = Random.Range(0, 100) < (100 - bombChance) ? fruitPrefab : bombPrefab;
+			}
 
-        var obj = Instantiate(prefab);
-        var x = Random.Range(-boundX, boundX);
-        obj.transform.position = new Vector2(x, -5f);
-    }
+			await new WaitForSeconds(3);
+		}
+	}
 }
